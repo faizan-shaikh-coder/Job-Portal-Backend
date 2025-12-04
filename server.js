@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
-import jobsRoutes from './routes/jobsRoutes.js'
+import jobsRoutes from './routes/jobsRoutes.js';
+import feedRoutes from "./routes/feedRoutes.js"
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/', (req, res)=>{
 
 app.use('/api/users', authRoutes);
 app.use('/api/jobs', jobsRoutes);
+app.use('/api/feedback', feedRoutes);
 
 const PORT = process.env.PORT || 5000;
 

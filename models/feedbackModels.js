@@ -21,7 +21,7 @@ const feedBackSchema = new mongoose.Schema({
         required: true,
         trim: true,
         minlength: 10,
-        maxlength: 50,
+       
     },
 
     approved: {

@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import feedBack from "../models/feedbackModels.js";
 
 //Create New Feedback
@@ -28,9 +29,33 @@ const getAllFeedback = async (req, res) => {
     const feedback = await feedBack.find({ approved: true }).sort({
       createdAt: -1,
     });
-    return res.json(getAllFeedback);
+    return res.json(feedback);
   } catch (error) {
     console.error("Fetch err", error);
     return res.status(500).json({ message: "internal server error" });
   }
 };
+
+//Delete Feedback
+
+const deleteFeedBack = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid Id" });
+    }
+
+    const removed = await feedBack.findByIdAndDelete(id);
+    if (!removed) {
+      return res.status(404).json({ message: "Feed back not found" });
+    }
+
+    return res.status(200).json({ message: "Feedback deleted", removed });
+  } catch (error) {
+    console.error("delete feedback error", error);
+    res.status(500).json({ message: "internal server error" });
+  }
+};
+
+export { createFeedback, getAllFeedback, deleteFeedBack };
